@@ -68,3 +68,4 @@ app/.idea
 build/
 gradle/
 app/logs/
+app/src/main/resources/web/
