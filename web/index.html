@@ -1,0 +1,482 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <title>SUI 内容内建页</title>
+	<link rel="stylesheet" href="sui/sm.min.css">
+    <link rel="stylesheet" href="sui/sm-extend.css">
+    <style type="text/css">
+        .infinite-scroll-preloader {
+            margin-top: -20px;
+        }
+    </style>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+<!-- page 容器 -->
+<div id="page" class="page page-current">
+    <!-- 标题栏 -->
+    <header class="bar bar-nav">
+        <a class="icon icon-me pull-left open-panel"></a>
+		<a href="#iptv"><button class="button pull-right" onclick="Events.iptvClick();">IPTV</button></a>
+        <h1 class="title">视频检索页面</h1>
+        <!-- 搜索条 -->
+        <div class="bar bar-header-secondary">
+            <div class="searchbar">
+                <a class="searchbar-cancel">取消</a>
+
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' placeholder='输入关键字...'/>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 这里是页面内容区 -->
+    <!--<div class="content">-->
+    <!-- 添加 class infinite-scroll 和 data-distaance -->
+    <div class="content">
+        <div class="list-block media-list">
+            <ul id="list">
+                <!--
+                <li>
+                    <a href="#" class="item-link item-content">
+                        <div class="item-media"><img
+                                src="http://pic7.qiyipic.com/image/20151126/f9/7a/v_109762650_m_601.jpg"
+                                style="width: 4rem;"></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">《爱情公寓》陈赫连夜说服 李金铭含泪回归</div>
+                                <div class="item-after">爱奇艺</div>
+                            </div>
+                            <div class="item-subtitle">副标题</div>
+                            <div class="item-text">此处是文本内容...</div>
+                        </div>
+                    </a>
+                </li>
+                -->
+            </ul>
+        </div>
+        <!-- 加载提示符 -->
+        <div class="infinite-scroll-preloader" hidden="hidden">
+            <div class="preloader"></div>
+        </div>
+    </div>
+    <!--</div>-->
+</div>
+
+<!-- 专辑详细页 -->
+<div id="albumDetail" class="page">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" href="index.html">
+            <span class="icon icon-left"></span>
+            返回
+        </a>
+
+        <h1 class='title'>详细信息页</h1>
+    </header>
+    <div class="content">
+        <div class="list-block media-list">
+            <ul id="albumList">
+                <!--
+                <li>
+                    <a href="#" class="item-link item-content" data-link="">
+                        <div class="item-media"><img
+                                src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg"
+                                style='width: 4rem;'></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">艾薇儿空降泰勒演唱会 合唱《Complicated》</div>
+                                <div class="item-after">20150831</div>
+                            </div>
+                            <div class="item-subtitle">标题</div>
+                            <div class="item-text">此处是文本内容...</div>
+                        </div>
+                    </a>
+                </li>
+                -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- iptv点播 -->
+<div id="iptv" class="page">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back" href="index.html">
+            <span class="icon icon-left"></span>
+            返回
+        </a>
+
+        <h1 class='title'>IPTV</h1>
+    </header>
+    <div class="content">
+        <div class="list-block media-list">
+            <ul id="iptvList">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 播放列表弹出窗口 -->
+<div class="popup popup-playlist">
+
+	<header class="bar bar-nav">
+		<a class="icon icon-left pull-left" onclick="$.closeModal();"></a>
+		<h1 class="title">当前播放列表</h1>
+	</header>
+
+	<div class="list-block">
+		<ul id="playlist"></ul>
+	</div>
+</div>
+
+<!-- popup, panel 等放在这里 -->
+<div class="panel-overlay">
+</div>
+<!-- Left Panel with Reveal effect -->
+<div class="panel panel-left panel-reveal">
+    <div class="content-block">
+        <p>播放状态控制</p>
+
+        <div class="card">
+            <a href="#" onclick="Events.pausePlayClick()">
+                <div class="card-content">
+                    <div class="card-content-inner">暂停播放</div>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="#" onclick="Events.resumePlayClick()">
+                <div class="card-content">
+                    <div class="card-content-inner">继续播放</div>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="#" onclick="Events.playlistClick()">
+                <div class="card-content">
+                    <div class="card-content-inner">播放列表</div>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="#" onclick="Events.stopPlayClick()">
+                <div class="card-content">
+                    <div class="card-content-inner">终止播放</div>
+                </div>
+            </a>
+        </div>
+        <!-- Click on link with "close-panel" class will close panel -->
+        <p><a href="#" class="close-panel">关闭</a></p>
+    </div>
+</div>
+<!--
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.4/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.4/js/sm-extend.min.js' charset='utf-8'></script>
+-->
+<script type='text/javascript' src='sui/zepto.js' charset='utf-8'></script>
+<script type='text/javascript' src='sui/sm.js' charset='utf-8'></script>
+<script type='text/javascript' src='sui/sm-extend.js' charset='utf-8'></script>
+<script type="text/javascript">
+    var Events = {
+        /* 图片加载失败时，采用本地服务器转换请求 */
+        imageLoadError: function () {
+            if (this.dataset.err)
+                return;
+            this.dataset.err = true;
+            var image = this;
+            console.log("err load:" + this.src);
+            this.src = "services/browser/img?url=" + this.src;
+            //$.get("services/browser/img", {url: this.src}, function (data) {
+            //    image.src = data;
+            //});
+        },
+        searchClick: function (event) {
+            if (event.which == 13) {
+                // 按回车
+                console.log(this.value);
+                $.showPreloader("正在检索中...");
+                Elements.listUl.html(""); //清空原内容
+                Functions.ajaxSearch(this.value, 1); // 搜索第一页
+                Elements.listUl.focus();
+            }
+        },
+        /*搜索页专辑信息单击*/
+        albumItemClick: function (event) {
+            console.log(event.data.videos);
+            var videos = event.data.videos;
+            // 布局详细页
+            Elements.albumListUl.html(""); //清空原内容
+
+            for (var index in videos) {
+                var video = videos[index];
+                var title = video.itemTitle;
+                var subTitle = video.subTitle;
+                var image = video.itemHImage;
+                var link = video.itemLink;
+                var length = video.timeLength; //视频长度，秒
+                var desc = "";
+                if (length) {
+                    desc = "时长:" + parseInt(length / 60) + "分钟";
+                }
+
+                var li = Functions.addItem(image, title, "", subTitle, desc);
+                li.find("a")[0].href = "#"; //取消原来链接
+                li.appendTo(Elements.albumListUl);
+                li.bind("click", {url: link, "title": title}, Events.albumItemVideoClick);
+            }
+        },
+        /*详细页专辑视频单击*/
+        albumItemVideoClick: function (event) {
+            console.log(event.data.url);
+            Functions.sendMessage({
+                action: "play",
+                url: event.data.url,
+                videoTitle: event.data.title
+            }, function (response) {
+                console.log("Vod Event Response");
+                console.log(response);
+                if (response) {
+                    $.toast(response.responseText);
+                } else {
+                    $.toast("请求点播失败，此为系统错误，将长期存在")
+                }
+            });
+        },
+        // 继续播放单击
+        resumePlayClick: function () {
+            Functions.sendMessage({action: "play"}, function (response) {
+                console.log("Play Event Response");
+                console.log(response);
+                if (response)
+                    $.toast(response.responseText);
+                else
+                    $.toast("请求继续播放失败，此为系统错误，将长期存在");
+            });
+        },
+        // 暂停播放单击
+        pausePlayClick: function () {
+            Functions.sendMessage({action: "pause"}, function (response) {
+                console.log("Pause Event Response");
+                console.log(response);
+                if (response)
+                    $.toast(response.responseText);
+                else
+                    $.toast("请求暂停播放失败，此为系统错误，将长期存在");
+            });
+        },
+        // 显示播放列表
+        playlistClick: function () {
+            Functions.sendMessage({action: "showList"}, function (response) {
+                Elements.playlistUl.html("");
+				response = JSON.parse(response.responseText);
+				console.log(response);
+                for (var index in response) {
+                    var id = response[index].id;
+                    var title = response[index].title;
+                    var playstatus = response[index].playstatus;
+                    var itemContent = $("<li>", {class: "item-content"});
+                    var itemMedia = $("<div>", {class: "item-media"});
+					var img;
+
+                    var itemInner = $("<div>", {class: "item-inner"});
+                    var itemTitle = $("<div>", {class: "item-title", text: title});
+                    var itemAfter;
+
+					if (playstatus == 4){
+						img = $("<img>", {src: "res/ps-played.png"});
+						itemAfter = $("<div>", {class: "item-after", text: "已播放"});
+					} else if (playstatus == 1){
+						img = $("<img>", {src: "res/ps-playing.png"});
+						itemAfter = $("<div>", {class: "item-after", text: "正在播放"});
+					} else {
+						img = $("<img>", {src: "res/ps-wait-play.png"});
+						itemAfter = $("<div>", {class: "item-after", text: "未播放"});
+					}
+
+					img.attr({style:"width:1rem"});
+					img.appendTo(itemMedia);
+					
+                    itemTitle.appendTo(itemInner);
+                    itemAfter.appendTo(itemInner);
+					itemMedia.appendTo(itemContent);
+                    itemInner.appendTo(itemContent);
+
+                    itemContent.appendTo(Elements.playlistUl);
+                }
+                $.popup(".popup-playlist");
+
+            });
+        },
+        stopPlayClick: function () {
+            Functions.sendMessage({action: "stop"}, function (response) {
+                console.log("Stop Event Response");
+                console.log(response);
+                if (response)
+                    $.toast(response.responseText);
+                else
+                    $.toast("请求终止播放失败，此为系统错误，将长期存在");
+            });
+        },
+		iptvClick: function (){
+			$.getJSON("iptv.json?callback=?",function(data){
+				console.log(data);
+			});
+		},
+		iptvItemClick: function(event){
+			var title = event.data.title;
+			var url = event.data.url;
+			
+			Functions.sendMessage({action: "iptv", url: url},function (response){
+				console.log(response);
+				if (response)
+					$.toast(response.responseText);
+				else
+					$.toast("请求点播IPTV失败，失败原因见Console");
+			});
+		}
+    };
+    var Functions = {
+        addItem: function (imageUrl, title, afterTitle, subTitle, titleText) {
+            //var ul = Elements.listUl;
+            var li = $("<li>");
+            var a = $("<a>", {class: "item-link item-content", href: "#albumDetail"});
+            var divImage = $("<div>", {class: "item-media"});
+            var img = $("<img>", {style: "width: 4rem;", src: imageUrl});
+			img.bind("error", Events.imageLoadError);
+            var divItem = $("<div>", {class: "item-inner"});
+            var divItemTitle = $("<div>", {class: "item-title-row"});
+            var divItemMainTitle = $("<div>", {class: "item-title", text: title});
+            var divItemAfterTitle = $("<div>", {class: "item-after", text: afterTitle});
+            var divSubTitle = $("<div>", {class: "item-subtitle", text: subTitle});
+            var divItemText = $("<div>", {class: "item-text", text: titleText});
+
+            //li.appendTo(ul);
+            a.appendTo(li);
+            divImage.appendTo(a);
+            divItem.appendTo(a);
+            img.appendTo(divImage);
+            divItemTitle.appendTo(divItem);
+            divSubTitle.appendTo(divItem);
+            divItemText.appendTo(divItem);
+            divItemMainTitle.appendTo(divItemTitle);
+            divItemAfterTitle.appendTo(divItemTitle);
+
+            return li;
+        },
+        /*搜索关键字*/
+        ajaxSearch: function (keyword, pageNum) {
+            $.getJSON("http://search.video.qiyi.com/o?callback=?", {
+                key: keyword,
+                "if": "html5",
+                video_allow_3rd: 1,
+                intent_result_number: 10,
+                intent_category_type: 1,
+                page_num: pageNum,
+                callback: "Functions.ajaxResult" /* 设置回调方法 */
+            });
+        },
+        /*搜索结果回调方法*/
+        ajaxResult: function (data) {
+            console.log(data);
+
+            var pageIndex = data.page_num; // 页数
+            var pageSize = data.page_size; // 单页记录数
+            var totalResultCount = data.result_num; // 总共记录数
+
+            var items = data.docinfos; // 结果记录集，数组
+
+            for (var index in items) {
+                var item = items[index].albumDocInfo; // 单个记录 一个记录就是一个专辑
+                Functions.processAlbum(item);
+            }
+
+            $.hidePreloader();
+        },
+        /* 处理单个专辑信息 */
+        processAlbum: function (album) {
+            var mainTitle = album.albumTitle; // 主标题
+            var subTitle = album.albumSubTitle; // 副标题
+            var image = album.albumImg; // 专辑图片
+            var type = null;
+            var siteId = album.siteId; // 视频来源id
+            var siteName = album.siteName; // 视频来源文字描述
+            var videoType;
+            var desc = "";
+
+            if (album.channel)
+                type = album.channel.split(",")[0]; // 文字描述的类型
+
+            videoType = (siteName ? siteName + " - " + type : " - "); // 视频来源和类型
+
+            // 电视剧专辑
+            if (album.video_lib_meta.link) {
+                mainTitle = album.video_lib_meta.title;
+                subTitle = album.video_lib_meta.star;
+                desc = album.video_lib_meta.description;
+            }
+            // 明星专辑,只显示第一个
+            if (album.starinfos) {
+                mainTitle = album.starinfos[0].starName;
+                desc = album.starinfos[0].starDesc;
+                videoType = album.starinfos[0].star_region + " - " + album.starinfos[0].occupation;
+            }
+
+            //tr.bind("click", {videos: album.videoinfos}, Events.albumClick); // 设置单击事件
+            var li = Functions.addItem(image, mainTitle, videoType, subTitle, desc);
+            li.appendTo(Elements.listUl);
+            li.bind("click", {videos: album.videoinfos}, Events.albumItemClick);
+        },
+        extensionId: function () {
+            return document.getElementById("sharedDiv").dataset.extensionId;
+        },
+        /*
+         sendMessage: function (message, callback) {
+         message.host = "localhost:vod";
+         chrome.runtime.sendMessage(Functions.extensionId(), message, callback);
+         }*/
+        sendMessage: function (message, callback) {
+            //$.get("services/browser/request", message, callback);
+            $.ajax({
+                url: "services/browser/request",
+                data: message,
+                headers: {"Content-Type": "application/x-www-form-urlencoded ; charset=utf-8"},
+                complete: callback
+            });
+        },
+		processIPTV: function (json){
+			Elements.iptvList.html("");
+			for(var index in json){
+				var title = json[index].title;
+				var url = json[index].url;
+				var img = json[index].img;
+				//function (imageUrl, title, afterTitle, subTitle, titleText)
+				var li = Functions.addItem(img, title, "", "", "");
+				
+				li.find("a")[0].href = "#";
+				li.bind("click",{title : title, url : url}, Events.iptvItemClick);
+				li.appendTo(Elements.iptvList);
+			}
+		}
+    };
+    var Elements = {
+        listUl: $("#list"),
+        searchText: $("#search"),
+        albumListUl: $("#albumList"),
+        playlistUl: $("#playlist"),
+		iptvList: $("#iptvList")
+    }
+    $(document).ready(function () {
+        //Functions.addItem("http://pic7.qiyipic.com/image/20151126/f9/7a/v_109762650_m_601.jpg", "《爱情公寓》陈赫连夜说服 李金铭含泪回归", "爱奇艺", "副标题", "说明文字");
+        Elements.searchText.keydown(Events.searchClick);
+    });
+</script>
+</body>
+</html>
