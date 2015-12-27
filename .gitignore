@@ -67,3 +67,4 @@ app/.gradle
 app/.idea
 build/
 gradle/
+app/logs/

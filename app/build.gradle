@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.google.zxing:javase:3.2.1'
     compile 'uk.co.caprica:vlcj:3.9.0'
     compile 'org.springframework:spring-context:4.2.4.RELEASE'
     compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.5'
