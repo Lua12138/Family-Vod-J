@@ -2,11 +2,14 @@ package vod.http;
 
 import fi.iki.elonen.NanoHTTPD;
 import org.slf4j.Logger;
+import vod.util.AppProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import static fi.iki.elonen.NanoHTTPD.Response.Status;
 
 /**
  * Http Server
@@ -16,12 +19,13 @@ public final class DreamHttp extends NanoHTTPD {
 
     private String webRoot; // root path
 
-    public DreamHttp(String root) {
+    public DreamHttp() {
         super(new Random().nextInt(55535) + 10000);
         this.handlers = new ArrayList<>();
-        if (!root.endsWith("/"))
-            root = root + "/";
-        this.webRoot = root;
+    }
+
+    public void setWebRoot(String webRoot) {
+        this.webRoot = webRoot;
     }
 
     /**
@@ -65,15 +69,16 @@ public final class DreamHttp extends NanoHTTPD {
         Response response = null;
         for (RequestHandler handler : this.handlers) {
             if (handler.getResponseAction() == action ||
-                    handler.getResponseAction().equals(action)) {
-                response = handler.onRequest(this.webRoot, args, session);
+                    (action != null && action.matches(handler.getResponseAction()))) {
+                response = handler.onRequest(
+                        this.webRoot == null ? AppProperty.getWebRoot() : this.webRoot, args, session);
                 break;
             }
         }
 
         if (response == null)
             // return no content ,if no handler.
-            return newFixedLengthResponse(Response.Status.NO_CONTENT, NanoHTTPD.MIME_PLAINTEXT, null);
+            return newFixedLengthResponse(Status.NO_CONTENT, NanoHTTPD.MIME_PLAINTEXT, null);
         else
             return response;
     }

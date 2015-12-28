@@ -1,8 +1,8 @@
 package vod.http;
 
-import fi.iki.elonen.NanoHTTPD;
-
 import java.util.Map;
+import static fi.iki.elonen.NanoHTTPD.IHTTPSession;
+import static fi.iki.elonen.NanoHTTPD.Response;
 
 public interface RequestHandler {
     /**
@@ -10,5 +10,5 @@ public interface RequestHandler {
      */
     String getResponseAction();
 
-    NanoHTTPD.Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session);
+    Response onRequest(String root, Map<String, String> args, IHTTPSession session);
 }
