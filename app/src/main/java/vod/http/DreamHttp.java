@@ -2,6 +2,7 @@ package vod.http;
 
 import fi.iki.elonen.NanoHTTPD;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vod.util.AppProperty;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public final class DreamHttp extends NanoHTTPD {
     private List<RequestHandler> handlers;
 
     private String webRoot; // root path
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public DreamHttp() {
         super(new Random().nextInt(55535) + 10000);
@@ -36,7 +38,7 @@ public final class DreamHttp extends NanoHTTPD {
     public void registerHandler(RequestHandler handler) {
         boolean repeat = false;
         for (RequestHandler h : this.handlers) {
-            if (h.getResponseAction().equals(handler.getResponseAction())) {
+            if (h.getClass().equals(handler.getClass())) {
                 repeat = true;
                 break;
             }
@@ -54,32 +56,37 @@ public final class DreamHttp extends NanoHTTPD {
      */
     public void removeHandler(RequestHandler handler) {
         for (int i = 0; i < this.handlers.size(); i++) {
-            if (this.handlers.get(i).getResponseAction().equals(handler.getResponseAction())) {
+            if (this.handlers.get(i).getClass().equals(handler.getClass())) {
                 this.handlers.remove(i);
                 break;
             }
         }
+
     }
 
     @Override
     public Response serve(IHTTPSession session) {
-        Map<String, String> args = session.getParms();
-        String action = args.get("action");
+        try {
+            Map<String, String> args = session.getParms();
+            String action = args.get("action");
 
-        Response response = null;
-        for (RequestHandler handler : this.handlers) {
-            if (handler.getResponseAction() == action ||
-                    (action != null && action.matches(handler.getResponseAction()))) {
-                response = handler.onRequest(
-                        this.webRoot == null ? AppProperty.getWebRoot() : this.webRoot, args, session);
-                break;
+            Response response = null;
+            for (RequestHandler handler : this.handlers) {
+                if (handler.doHandler(action, session.getUri())) {
+                    response = handler.onRequest(
+                            this.webRoot == null ? AppProperty.getWebRoot() : this.webRoot, args, session);
+                    break;
+                }
             }
-        }
 
-        if (response == null)
-            // return no content ,if no handler.
-            return newFixedLengthResponse(Status.NO_CONTENT, NanoHTTPD.MIME_PLAINTEXT, null);
-        else
-            return response;
+            if (response == null)
+                // return no content ,if no handler.
+                return newFixedLengthResponse(Status.NO_CONTENT, NanoHTTPD.MIME_PLAINTEXT, null);
+            else
+                return response;
+        } catch (Exception e) {
+            logger.error("Uncatch Exception:" + e.getMessage());
+            return newFixedLengthResponse(Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, e.getMessage());
+        }
     }
 }

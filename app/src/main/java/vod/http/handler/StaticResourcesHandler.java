@@ -18,13 +18,12 @@ import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
  */
 public class StaticResourcesHandler implements RequestHandler {
     @Override
-    public String getResponseAction() {
-        return null;
+    public boolean doHandler(String action, String uri) {
+        return action == null;
     }
 
     @Override
     public NanoHTTPD.Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
-
         String path;
         if ("/".equals(session.getUri()))
             path = root + "index.html";

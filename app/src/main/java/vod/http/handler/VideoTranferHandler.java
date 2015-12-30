@@ -21,9 +21,10 @@ import static fi.iki.elonen.NanoHTTPD.*;
  * Created by forDream on 2015-12-27.
  */
 public class VideoTranferHandler implements RequestHandler {
+
     @Override
-    public String getResponseAction() {
-        return "(vlc|transVlc)";
+    public boolean doHandler(String action, String uri) {
+        return "vlc".equals(action) || "transVlc".equals(action);
     }
 
     @Override
