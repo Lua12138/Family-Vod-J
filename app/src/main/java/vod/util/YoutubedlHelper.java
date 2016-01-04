@@ -1,12 +1,10 @@
 package vod.util;
 
-import java.text.Format;
-
 /**
  * Created by forDream on 2015-12-27.
  */
 public class YoutubedlHelper {
-    private static final String CMD_LIST_COUNT = "youtube-dl --getid \"%s\"";
+    private static final String CMD_LIST_COUNT = "youtube-dl --get-id \"%s\"";
     private static final String CMD_LIST_JSON_ALL = "youtube-dl -j \"%s\"";
     private static final String CMD_LIST_JSON_INDEX = "youtube-dl --playlist-start %d --playlist-end %d -j \"%s\"";
 
