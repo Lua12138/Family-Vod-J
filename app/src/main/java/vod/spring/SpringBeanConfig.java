@@ -18,11 +18,4 @@ public class SpringBeanConfig {
     public JFrame jFrame() {
         return new JFrame();
     }
-
-    @Bean
-    public ResourceBundle resourceBundle() {
-        Locale locale = Locale.getDefault();
-        ResourceBundle bundle = ResourceBundle.getBundle("message", locale);
-        return bundle;
-    }
 }
