@@ -3,7 +3,10 @@ package vod.util;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -66,11 +69,19 @@ public class AppProperty {
         return (AnnotationConfigApplicationContext) properties.get(P_KEY_IoC);
     }
 
+    public static String userDir() {
+        return System.getProperty("user.dir");
+    }
+
     public static String get(String key) {
         return properties.getProperty(key);
     }
 
     public static void set(String key, String value) {
         properties.put(key, value);
+    }
+
+    public static boolean isDebug() {
+        return true;
     }
 }
