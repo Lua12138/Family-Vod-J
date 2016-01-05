@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title>SUI 内容内建页</title>
-	<link rel="stylesheet" href="sui/sm.min.css">
+    <link rel="stylesheet" href="sui/sm.min.css">
     <link rel="stylesheet" href="sui/sm-extend.css">
     <style type="text/css">
         .infinite-scroll-preloader {
@@ -22,7 +22,9 @@
     <!-- 标题栏 -->
     <header class="bar bar-nav">
         <a class="icon icon-me pull-left open-panel"></a>
-		<a href="#iptv"><button class="button pull-right" onclick="Events.iptvClick();">IPTV</button></a>
+        <a href="#iptv">
+            <button class="button pull-right" onclick="Events.iptvClick();">IPTV</button>
+        </a>
         <h1 class="title">视频检索页面</h1>
         <!-- 搜索条 -->
         <div class="bar bar-header-secondary">
@@ -73,7 +75,7 @@
 <!-- 专辑详细页 -->
 <div id="albumDetail" class="page">
     <header class="bar bar-nav">
-        <a class="button button-link button-nav pull-left back" href="index.html">
+        <a class="button button-link button-nav pull-left back" href="mobile.html">
             <span class="icon icon-left"></span>
             返回
         </a>
@@ -83,23 +85,6 @@
     <div class="content">
         <div class="list-block media-list">
             <ul id="albumList">
-                <!--
-                <li>
-                    <a href="#" class="item-link item-content" data-link="">
-                        <div class="item-media"><img
-                                src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg"
-                                style='width: 4rem;'></div>
-                        <div class="item-inner">
-                            <div class="item-title-row">
-                                <div class="item-title">艾薇儿空降泰勒演唱会 合唱《Complicated》</div>
-                                <div class="item-after">20150831</div>
-                            </div>
-                            <div class="item-subtitle">标题</div>
-                            <div class="item-text">此处是文本内容...</div>
-                        </div>
-                    </a>
-                </li>
-                -->
             </ul>
         </div>
     </div>
@@ -108,11 +93,13 @@
 <!-- iptv点播 -->
 <div id="iptv" class="page">
     <header class="bar bar-nav">
-        <a class="button button-link button-nav pull-left back" href="index.html">
+        <a class="button button-link button-nav pull-left back" href="mobile.html">
             <span class="icon icon-left"></span>
             返回
         </a>
-
+        <a href="#">
+            <button class="button pull-right" onclick="Events.returnVodClick();">返回点播</button>
+        </a>
         <h1 class='title'>IPTV</h1>
     </header>
     <div class="content">
@@ -126,14 +113,14 @@
 <!-- 播放列表弹出窗口 -->
 <div class="popup popup-playlist">
 
-	<header class="bar bar-nav">
-		<a class="icon icon-left pull-left" onclick="$.closeModal();"></a>
-		<h1 class="title">当前播放列表</h1>
-	</header>
+    <header class="bar bar-nav">
+        <a class="icon icon-left pull-left" onclick="$.closeModal();"></a>
+        <h1 class="title">当前播放列表</h1>
+    </header>
 
-	<div class="list-block">
-		<ul id="playlist"></ul>
-	</div>
+    <div class="list-block">
+        <ul id="playlist"></ul>
+    </div>
 </div>
 
 <!-- popup, panel 等放在这里 -->
@@ -176,11 +163,7 @@
         <p><a href="#" class="close-panel">关闭</a></p>
     </div>
 </div>
-<!--
-<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.4/js/sm.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.4/js/sm-extend.min.js' charset='utf-8'></script>
--->
+
 <script type='text/javascript' src='sui/zepto.js' charset='utf-8'></script>
 <script type='text/javascript' src='sui/sm.js' charset='utf-8'></script>
 <script type='text/javascript' src='sui/sm-extend.js' charset='utf-8'></script>
@@ -243,7 +226,7 @@
             }, function (response) {
                 console.log("Vod Event Response");
                 console.log(response);
-                if (response) {
+                if (response.status == 200) {
                     $.toast(response.responseText);
                 } else {
                     $.toast("请求点播失败，此为系统错误，将长期存在")
@@ -255,7 +238,7 @@
             Functions.sendMessage({action: "play"}, function (response) {
                 console.log("Play Event Response");
                 console.log(response);
-                if (response)
+                if (response.status == 200)
                     $.toast(response.responseText);
                 else
                     $.toast("请求继续播放失败，此为系统错误，将长期存在");
@@ -266,7 +249,7 @@
             Functions.sendMessage({action: "pause"}, function (response) {
                 console.log("Pause Event Response");
                 console.log(response);
-                if (response)
+                if (response.status == 200)
                     $.toast(response.responseText);
                 else
                     $.toast("请求暂停播放失败，此为系统错误，将长期存在");
@@ -276,37 +259,37 @@
         playlistClick: function () {
             Functions.sendMessage({action: "showList"}, function (response) {
                 Elements.playlistUl.html("");
-				response = JSON.parse(response.responseText);
-				console.log(response);
+                response = JSON.parse(response.responseText);
+                console.log(response);
                 for (var index in response) {
                     var id = response[index].id;
                     var title = response[index].title;
                     var playstatus = response[index].playstatus;
                     var itemContent = $("<li>", {class: "item-content"});
                     var itemMedia = $("<div>", {class: "item-media"});
-					var img;
+                    var img;
 
                     var itemInner = $("<div>", {class: "item-inner"});
                     var itemTitle = $("<div>", {class: "item-title", text: title});
                     var itemAfter;
 
-					if (playstatus == 4){
-						img = $("<img>", {src: "res/ps-played.png"});
-						itemAfter = $("<div>", {class: "item-after", text: "已播放"});
-					} else if (playstatus == 1){
-						img = $("<img>", {src: "res/ps-playing.png"});
-						itemAfter = $("<div>", {class: "item-after", text: "正在播放"});
-					} else {
-						img = $("<img>", {src: "res/ps-wait-play.png"});
-						itemAfter = $("<div>", {class: "item-after", text: "未播放"});
-					}
+                    if (playstatus == "played") {
+                        img = $("<img>", {src: "res/ps-played.png"});
+                        itemAfter = $("<div>", {class: "item-after", text: "已播放"});
+                    } else if (playstatus == "playing") {
+                        img = $("<img>", {src: "res/ps-playing.png"});
+                        itemAfter = $("<div>", {class: "item-after", text: "正在播放"});
+                    } else {
+                        img = $("<img>", {src: "res/ps-wait-play.png"});
+                        itemAfter = $("<div>", {class: "item-after", text: "未播放"});
+                    }
 
-					img.attr({style:"width:1rem"});
-					img.appendTo(itemMedia);
-					
+                    img.attr({style: "width:1rem"});
+                    img.appendTo(itemMedia);
+
                     itemTitle.appendTo(itemInner);
                     itemAfter.appendTo(itemInner);
-					itemMedia.appendTo(itemContent);
+                    itemMedia.appendTo(itemContent);
                     itemInner.appendTo(itemContent);
 
                     itemContent.appendTo(Elements.playlistUl);
@@ -319,29 +302,37 @@
             Functions.sendMessage({action: "stop"}, function (response) {
                 console.log("Stop Event Response");
                 console.log(response);
-                if (response)
+                if (response.status == 200)
                     $.toast(response.responseText);
                 else
                     $.toast("请求终止播放失败，此为系统错误，将长期存在");
             });
         },
-		iptvClick: function (){
-			$.getJSON("iptv.json?callback=?",function(data){
-				console.log(data);
-			});
-		},
-		iptvItemClick: function(event){
-			var title = event.data.title;
-			var url = event.data.url;
-			
-			Functions.sendMessage({action: "iptv", url: url},function (response){
-				console.log(response);
-				if (response)
-					$.toast(response.responseText);
-				else
-					$.toast("请求点播IPTV失败，失败原因见Console");
-			});
-		}
+        iptvClick: function () {
+            $.getJSON("iptv.js?callback=?", function (data) {
+                console.log(data);
+            });
+        },
+        iptvItemClick: function (event) {
+            var title = event.data.title;
+            var url = event.data.url;
+
+            Functions.sendMessage({action: "iptv", url: url}, function (response) {
+                console.log(response);
+                if (response.status == 200)
+                    $.toast(response.responseText);
+                else
+                    $.toast("请求点播IPTV失败，失败原因见Console");
+            });
+        },
+        returnVodClick: function () {
+            Functions.sendMessage({action: "returnIPTV"}, function (response) {
+                if (response.status == 200)
+                    $.toast(response.responseText);
+                else
+                    $.toast("请求点播IPTV失败，失败原因见Console");
+            });
+        }
     };
     var Functions = {
         addItem: function (imageUrl, title, afterTitle, subTitle, titleText) {
@@ -350,7 +341,7 @@
             var a = $("<a>", {class: "item-link item-content", href: "#albumDetail"});
             var divImage = $("<div>", {class: "item-media"});
             var img = $("<img>", {style: "width: 4rem;", src: imageUrl});
-			img.bind("error", Events.imageLoadError);
+            img.bind("error", Events.imageLoadError);
             var divItem = $("<div>", {class: "item-inner"});
             var divItemTitle = $("<div>", {class: "item-title-row"});
             var divItemMainTitle = $("<div>", {class: "item-title", text: title});
@@ -434,14 +425,6 @@
             li.appendTo(Elements.listUl);
             li.bind("click", {videos: album.videoinfos}, Events.albumItemClick);
         },
-        extensionId: function () {
-            return document.getElementById("sharedDiv").dataset.extensionId;
-        },
-        /*
-         sendMessage: function (message, callback) {
-         message.host = "localhost:vod";
-         chrome.runtime.sendMessage(Functions.extensionId(), message, callback);
-         }*/
         sendMessage: function (message, callback) {
             //$.get("services/browser/request", message, callback);
             $.ajax({
@@ -451,30 +434,29 @@
                 complete: callback
             });
         },
-		processIPTV: function (json){
-			Elements.iptvList.html("");
-			for(var index in json){
-				var title = json[index].title;
-				var url = json[index].url;
-				var img = json[index].img;
-				//function (imageUrl, title, afterTitle, subTitle, titleText)
-				var li = Functions.addItem(img, title, "", "", "");
-				
-				li.find("a")[0].href = "#";
-				li.bind("click",{title : title, url : url}, Events.iptvItemClick);
-				li.appendTo(Elements.iptvList);
-			}
-		}
+        processIPTV: function (json) {
+            Elements.iptvList.html("");
+            for (var index in json) {
+                var title = json[index].title;
+                var url = json[index].url;
+                var img = json[index].img;
+                //function (imageUrl, title, afterTitle, subTitle, titleText)
+                var li = Functions.addItem(img, title, "", "", "");
+
+                li.find("a")[0].href = "#";
+                li.bind("click", {title: title, url: url}, Events.iptvItemClick);
+                li.appendTo(Elements.iptvList);
+            }
+        }
     };
     var Elements = {
         listUl: $("#list"),
         searchText: $("#search"),
         albumListUl: $("#albumList"),
         playlistUl: $("#playlist"),
-		iptvList: $("#iptvList")
+        iptvList: $("#iptvList")
     }
     $(document).ready(function () {
-        //Functions.addItem("http://pic7.qiyipic.com/image/20151126/f9/7a/v_109762650_m_601.jpg", "《爱情公寓》陈赫连夜说服 李金铭含泪回归", "爱奇艺", "副标题", "说明文字");
         Elements.searchText.keydown(Events.searchClick);
     });
 </script>
