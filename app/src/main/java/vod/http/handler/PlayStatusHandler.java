@@ -4,6 +4,7 @@ import fi.iki.elonen.NanoHTTPD;
 import uk.co.caprica.vlcj.component.EmbeddedMediaListPlayerComponent;
 import vod.http.RequestHandler;
 import vod.util.AppProperty;
+import vod.util.I18nHelper;
 
 import java.util.Map;
 
@@ -28,6 +29,6 @@ public class PlayStatusHandler implements RequestHandler {
             AppProperty.getSpringContext().getBean(EmbeddedMediaListPlayerComponent.class).getMediaListPlayer().pause();
         }
 
-        return newFixedLengthResponse("操作成功");
+        return newFixedLengthResponse(I18nHelper.getString(this, "success"));
     }
 }
