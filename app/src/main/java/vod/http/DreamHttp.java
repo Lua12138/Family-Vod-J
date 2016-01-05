@@ -8,7 +8,6 @@ import vod.util.AppProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import static fi.iki.elonen.NanoHTTPD.Response.Status;
 
@@ -21,8 +20,8 @@ public final class DreamHttp extends NanoHTTPD {
     private String webRoot; // root path
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public DreamHttp() {
-        super(new Random().nextInt(55535) + 10000);
+    public DreamHttp(int port) {
+        super(port);
         this.handlers = new ArrayList<>();
     }
 
@@ -70,9 +69,11 @@ public final class DreamHttp extends NanoHTTPD {
             Map<String, String> args = session.getParms();
             String action = args.get("action");
 
+            logger.debug("request uri -> {}, action -> {}", session.getUri(), action);
             Response response = null;
             for (RequestHandler handler : this.handlers) {
                 if (handler.doHandler(action, session.getUri())) {
+                    logger.debug("dispatch handler {}", handler.getClass().getName());
                     response = handler.onRequest(
                             this.webRoot == null ? AppProperty.getWebRoot() : this.webRoot, args, session);
                     break;
