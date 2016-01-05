@@ -7,7 +7,6 @@ import vod.http.RequestHandler;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Map;
 
 import static fi.iki.elonen.NanoHTTPD.MIME_PLAINTEXT;
@@ -25,9 +24,13 @@ public class StaticResourcesHandler implements RequestHandler {
     @Override
     public NanoHTTPD.Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
         String path;
-        if ("/".equals(session.getUri()))
-            path = root + "index.html";
-        else
+        if ("/".equals(session.getUri())) {
+            String ua = session.getHeaders().get("user-agent");
+            if (ua.indexOf("Mobile") > 0)
+                path = root + "mobile.html";
+            else
+                path = root + "pc.html";
+        } else
             path = root + session.getUri();
         File file = new File(path);
         if (file.exists()) {
