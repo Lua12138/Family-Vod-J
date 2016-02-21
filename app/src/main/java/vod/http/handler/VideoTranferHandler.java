@@ -2,28 +2,26 @@ package vod.http.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.collections.MappingChange;
 import fi.iki.elonen.NanoHTTPD;
-import vod.http.RequestHandler;
+import fordream.http.RequestHandler;
 import vod.util.AppProperty;
 import vod.util.YoutubedlHelper;
 import vod.util.httpclient.HttpClient;
-import vod.util.httpclient.HttpClientHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.*;
 
 import static fi.iki.elonen.NanoHTTPD.*;
 
 /**
- * Created by forDream on 2015-12-27.
+ * Handler of vlc request and pre-request.
  */
 public class VideoTranferHandler implements RequestHandler {
 
     @Override
-    public boolean doHandler(String action, String uri) {
+    public boolean doHandler(Map<String, String> args, String uri) {
+        String action = args.get("action");
         return "vlc".equals(action) || "transVlc".equals(action);
     }
 
@@ -63,6 +61,13 @@ public class VideoTranferHandler implements RequestHandler {
 
                 Map<String, String> requestHeader = new HashMap<>();
 
+                Map<String, String> localRequestHeaders = session.getHeaders();
+                // transfer request headers
+                for (Iterator<String> iterator = localRequestHeaders.keySet().iterator(); iterator.hasNext(); ) {
+                    String key = iterator.next();
+                    requestHeader.put(key, localRequestHeaders.get(key));
+                }
+                // rewrite youtube-dl headers
                 for (Iterator<String> iterator = headers.fieldNames(); iterator.hasNext(); ) {
                     String key = iterator.next();
                     requestHeader.put(key, headers.get(key).asText());

@@ -12,9 +12,7 @@ configurations {
     compile.exclude group: 'log4j', module: 'log4j'
 }
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-core:2.5.5'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.5'
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.5'
+    compile 'com.github.gam2046:httpd:1.0.1'
     compile 'com.google.zxing:javase:3.2.1'
     compile 'uk.co.caprica:vlcj:3.9.0'
     compile 'org.aspectj:aspectjweaver:1.8.7'

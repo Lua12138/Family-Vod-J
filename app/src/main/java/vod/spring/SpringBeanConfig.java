@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Created by forDream on 2015-12-27.
+ * The Spring Beans of GUI
  */
 @Configuration
 @EnableAspectJAutoProxy

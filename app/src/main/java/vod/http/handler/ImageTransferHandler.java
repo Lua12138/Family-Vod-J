@@ -1,7 +1,7 @@
 package vod.http.handler;
 
 import fi.iki.elonen.NanoHTTPD;
-import vod.http.RequestHandler;
+import fordream.http.RequestHandler;
 import vod.util.httpclient.HttpClient;
 import vod.util.httpclient.HttpClientHandler;
 
@@ -15,11 +15,12 @@ import static fi.iki.elonen.NanoHTTPD.Response;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2015-12-30.
+ * Handler of show image (in fact, it is a proxy)
  */
 public class ImageTransferHandler implements RequestHandler {
+
     @Override
-    public boolean doHandler(String action, String uri) {
+    public boolean doHandler(Map<String, String> args, String uri) {
         return "/services/browser/img".equals(uri);
     }
 

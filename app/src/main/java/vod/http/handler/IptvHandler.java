@@ -1,7 +1,7 @@
 package vod.http.handler;
 
 import fi.iki.elonen.NanoHTTPD;
-import vod.http.RequestHandler;
+import fordream.http.RequestHandler;
 import vod.player.DreamPlayListHelper;
 import vod.util.AppProperty;
 import vod.util.I18nHelper;
@@ -14,11 +14,13 @@ import static fi.iki.elonen.NanoHTTPD.Response.Status;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2016-01-05.
+ * Handler of show iptv list
  */
 public class IptvHandler implements RequestHandler {
+
     @Override
-    public boolean doHandler(String action, String uri) {
+    public boolean doHandler(Map<String, String> args, String uri) {
+        String action = args.get("action");
         return "iptv".equals(action) || "returnIPTV".equals(action);
     }
 

@@ -1,8 +1,8 @@
 package vod.http.handler;
 
 import fi.iki.elonen.NanoHTTPD;
+import fordream.http.RequestHandler;
 import uk.co.caprica.vlcj.component.EmbeddedMediaListPlayerComponent;
-import vod.http.RequestHandler;
 import vod.util.AppProperty;
 import vod.util.I18nHelper;
 
@@ -11,12 +11,13 @@ import java.util.Map;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2015-12-27.
+ * Handler of handle player's play status.
  */
 public class PlayStatusHandler implements RequestHandler {
 
     @Override
-    public boolean doHandler(String action, String uri) {
+    public boolean doHandler(Map<String, String> args, String uri) {
+        String action = args.get("action");
         return "pause".equals(action) || "stop".equals(action);
     }
 

@@ -1,27 +1,31 @@
 package vod.spring;
 
 import fi.iki.elonen.NanoHTTPD;
+import fordream.http.DreamHttpd;
+import fordream.http.RequestHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import vod.http.DreamHttp;
-import vod.http.RequestHandler;
 import vod.http.handler.*;
 import vod.util.AppProperty;
 
 import java.util.Random;
 
 /**
- * Created by forDream on 2016-01-04.
+ * The Spring Beans of httpd
  */
 @Configuration
 public class HttpBeanConfig {
+    /**
+     *
+     * @return random port httpd
+     */
     @Bean
     public NanoHTTPD httpd() {
-        DreamHttp http;
+        DreamHttpd http;
         if (AppProperty.isDebug())
-            http = new DreamHttp(80);
+            http = new DreamHttpd(80, System.getProperty("user.dir"));
         else
-            http = new DreamHttp(new Random().nextInt(55535) + 10000);
+            http = new DreamHttpd(new Random().nextInt(55535) + 10000, System.getProperty("user.dir"));
         http.registerHandler(videoTransferHandler());
         http.registerHandler(imageTransferHandler());
         http.registerHandler(playStatusHandler());

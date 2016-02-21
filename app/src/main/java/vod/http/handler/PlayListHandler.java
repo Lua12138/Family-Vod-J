@@ -3,8 +3,8 @@ package vod.http.handler;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import fi.iki.elonen.NanoHTTPD;
+import fordream.http.RequestHandler;
 import uk.co.caprica.vlcj.player.MediaMetaData;
-import vod.http.RequestHandler;
 import vod.player.DreamPlayListHelper;
 import vod.util.AppProperty;
 
@@ -14,11 +14,13 @@ import java.util.Map;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2016-01-04.
+ * Handler of show play list
  */
 public class PlayListHandler implements RequestHandler {
+
     @Override
-    public boolean doHandler(String action, String uri) {
+    public boolean doHandler(Map<String, String> args, String uri) {
+        String action = args.get("action");
         return "showList".equals(action);
     }
 

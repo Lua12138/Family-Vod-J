@@ -9,17 +9,21 @@
         </File>
         <RollingFile name="RollingFile" fileName="logs/app.log"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="100 MB"/>
         </RollingFile>
     </Appenders>
     <Loggers>
         <Root level="error">
-            <AppenderRef ref="Console"/>
-            <appender-ref ref="RollingFile"/>
+            <Appender-Ref ref="Console"/>
+            <Appender-Ref ref="RollingFile"/>
         </Root>
-        <Logger name="uk.co.caprica.vlcj.player" level="info">
-            <AppenderRef ref="Console"/>
+        <Logger name="uk.co.caprica.vlcj.player" level="warn">
+        </Logger>
+        <Logger name="vod" level="all">
+        </Logger>
+        <Logger name="org.springframework" level="all">
         </Logger>
     </Loggers>
 </Configuration>

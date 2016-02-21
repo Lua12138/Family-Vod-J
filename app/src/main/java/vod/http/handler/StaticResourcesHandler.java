@@ -1,8 +1,8 @@
 package vod.http.handler;
 
 import fi.iki.elonen.NanoHTTPD;
-import vod.http.MimeHelper;
-import vod.http.RequestHandler;
+import fordream.http.MimeHelper;
+import fordream.http.RequestHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,12 +13,13 @@ import static fi.iki.elonen.NanoHTTPD.MIME_PLAINTEXT;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2015-12-26.
+ * Handler of Static Resources
  */
 public class StaticResourcesHandler implements RequestHandler {
+
     @Override
-    public boolean doHandler(String action, String uri) {
-        return action == null;
+    public boolean doHandler(Map<String, String> args, String uri) {
+        return args.get("action") == null;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class StaticResourcesHandler implements RequestHandler {
                 FileInputStream is = new FileInputStream(file);
                 // nano httpd will close the stream
                 return newFixedLengthResponse(NanoHTTPD.Response.Status.OK,
-                        MimeHelper.getMime(file.getAbsolutePath()), is, file.length());
+                        MimeHelper.instance().getMime(file.getAbsolutePath()), is, file.length());
             } catch (FileNotFoundException e) { // checked
                 e.printStackTrace();
             }
